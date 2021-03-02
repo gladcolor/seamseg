@@ -1,5 +1,3 @@
-# Copyright (c) Facebook, Inc. and its affiliates.
-
 import torch
 from inplace_abn import active_group, set_active_group
 

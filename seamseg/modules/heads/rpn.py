@@ -1,5 +1,3 @@
-# Copyright (c) Facebook, Inc. and its affiliates.
-
 import torch.nn as nn
 
 from inplace_abn import ABN

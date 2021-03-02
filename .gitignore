@@ -101,3 +101,6 @@ venv.bak/
 
 # other
 .idea/
+/scripts/seamseg_r50_vistas.zip
+/scripts/seamseg_r50_vistas/seamseg_r50_vistas.tar
+/seamseg_r50_vistas/seamseg_r50_vistas.tar

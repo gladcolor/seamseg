@@ -1,5 +1,3 @@
-# Copyright (c) Facebook, Inc. and its affiliates.
-
 import numpy as np
 import torch
 import torch.nn.functional as functional

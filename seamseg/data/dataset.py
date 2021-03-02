@@ -1,5 +1,3 @@
-# Copyright (c) Facebook, Inc. and its affiliates.
-
 import glob
 from itertools import chain
 from os import path
@@ -70,6 +68,7 @@ class ISSDataset(data.Dataset):
         img_desc = self._images[item]
 
         img_file = path.join(self._img_dir, img_desc["id"])
+        img_file = img_file.replace(".JPG", ".jpg")
         if path.exists(img_file + ".png"):
             img_file = img_file + ".png"
         elif path.exists(img_file + ".jpg"):
@@ -149,13 +148,14 @@ class ISSDataset(data.Dataset):
     def get_raw_image(self, idx):
         """Load a single, unmodified image with given id from the dataset"""
         img_file = path.join(self._img_dir, idx)
+
         if path.exists(img_file + ".png"):
             img_file = img_file + ".png"
         elif path.exists(img_file + ".jpg"):
             img_file = img_file + ".jpg"
         else:
             raise IOError("Cannot find any image for id {} in {}".format(idx, self._img_dir))
-
+        img_file = img_file.replace(".JPG", ".jpg")
         return Image.open(img_file)
 
     def get_image_desc(self, idx):
@@ -168,7 +168,8 @@ class ISSDataset(data.Dataset):
 
 
 class ISSTestDataset(data.Dataset):
-    _EXTENSIONS = ["*.jpg", "*.jpeg", "*.png"]
+    # _EXTENSIONS = ["*.jpg", "*.jpeg", "*.png"]
+    _EXTENSIONS = ["*.jpg", "*.jpeg", "*.JPG"]
 
     def __init__(self, in_dir, transform):
         super(ISSTestDataset, self).__init__()
@@ -179,17 +180,26 @@ class ISSTestDataset(data.Dataset):
         self._images = []
         for img_path in chain(
                 *(glob.iglob(path.join(self.in_dir, '**', ext), recursive=True) for ext in ISSTestDataset._EXTENSIONS)):
-            _, name_with_ext = path.split(img_path)
-            idx, _ = path.splitext(name_with_ext)
+            try:
+                _, name_with_ext = path.split(img_path)
+                idx, _ = path.splitext(name_with_ext)
 
-            with Image.open(img_path) as img_raw:
-                size = (img_raw.size[1], img_raw.size[0])
+                img_path = img_path.replace(".JPG", ".jpg")
 
-            self._images.append({
-                "idx": idx,
-                "path": img_path,
-                "size": size,
-            })
+                print("img_path:", img_path)
+
+                with Image.open(img_path) as img_raw:
+                    size = (img_raw.size[1], img_raw.size[0])
+
+
+
+                self._images.append({
+                    "idx": idx,
+                    "path": img_path,
+                    "size": size,})
+            except Exception as e:
+                print("Error in ISSTestDataset:__init__():", e)
+                continue
 
     @property
     def img_sizes(self):
@@ -201,6 +211,7 @@ class ISSTestDataset(data.Dataset):
 
     def __getitem__(self, item):
         # Load image
+        print(r"self._images[item][path]:", self._images[item]["path"])
         with Image.open(self._images[item]["path"]) as img_raw:
             size = (img_raw.size[1], img_raw.size[0])
             img = self.transform(img_raw.convert(mode="RGB"))

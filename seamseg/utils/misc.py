@@ -1,5 +1,3 @@
-# Copyright (c) Facebook, Inc. and its affiliates.
-
 import io
 from collections import OrderedDict
 from functools import partial

@@ -1,5 +1,3 @@
-# Copyright (c) Facebook, Inc. and its affiliates.
-
 from torch.nn.parallel import DistributedDataParallel as TorchDistributedDataParallel
 
 from .scatter_gather import scatter_kwargs, gather

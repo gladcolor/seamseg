@@ -1,5 +1,3 @@
-// Copyright (c) Facebook, Inc. and its affiliates.
-
 #include <ATen/ATen.h>
 #include <c10/cuda/CUDAStream.h>
 #include <ATen/cuda/detail/IndexUtils.cuh>

@@ -1,5 +1,3 @@
-# Copyright (c) Facebook, Inc. and its affiliates.
-
 import random
 
 import numpy as np
@@ -170,9 +168,12 @@ class ISSTestTransform:
     def __call__(self, img):
         # Adjust scale
         scale = self._adjusted_scale(img.size[0], img.size[1])
+        print("old scale: ", img.size[0], img.size[1])
 
         out_size = tuple(int(dim * scale) for dim in img.size)
         img = img.resize(out_size, resample=Image.BILINEAR)
+
+        print("new img.size: ", img.size[0], img.size[1])
 
         # Image transformations
         img = tfn.to_tensor(img)

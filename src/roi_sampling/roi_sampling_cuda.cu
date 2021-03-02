@@ -1,5 +1,3 @@
-// Copyright (c) Facebook, Inc. and its affiliates.
-
 #include <vector>
 
 #include <ATen/ATen.h>

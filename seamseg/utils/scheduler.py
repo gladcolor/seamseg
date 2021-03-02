@@ -1,5 +1,3 @@
-# Copyright (c) Facebook, Inc. and its affiliates.
-
 """
 This module contains copies of the main LR schedulers from Pytorch 1.0, as well as some additional schedulers
 and utility code. This is mostly intended as a work-around for the bugs and general issues introduced in Pytorch 1.1

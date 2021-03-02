@@ -1,5 +1,3 @@
-# Copyright (c) Facebook, Inc. and its affiliates.
-
 import torch
 
 from seamseg.utils.parallel import PackedSequence

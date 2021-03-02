@@ -1,5 +1,3 @@
-// Copyright (c) Facebook, Inc. and its affiliates.
-
 #include <ATen/ATen.h>
 
 #include "bbx.h"

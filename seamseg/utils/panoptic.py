@@ -1,5 +1,3 @@
-# Copyright (c) Facebook, Inc. and its affiliates.
-
 import torch
 
 from .bbx import invert_roi_bbx

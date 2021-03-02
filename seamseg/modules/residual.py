@@ -1,5 +1,3 @@
-# Copyright (c) Facebook, Inc. and its affiliates.
-
 from collections import OrderedDict
 
 import torch.nn as nn

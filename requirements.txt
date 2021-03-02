@@ -1,10 +1,10 @@
 pillow
 numpy
 umsgpack
-torchvision==0.3
+torchvision
 tqdm
 scikit-image
 pycocotools
-torch==1.1
+torch
 git+git://github.com/waspinator/pycococreator.git@0.2.0
 git+https://github.com/mapillary/inplace_abn.git

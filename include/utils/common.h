@@ -1,5 +1,3 @@
-// Copyright (c) Facebook, Inc. and its affiliates.
-
 #pragma once
 
 #include <type_traits>

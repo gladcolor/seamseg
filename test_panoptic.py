@@ -4,8 +4,6 @@ from collections import OrderedDict
 from functools import partial
 from os import path, mkdir
 
-from tqdm import tqdm
-
 import numpy as np
 import torch
 import torch.utils.data as data
@@ -77,7 +75,6 @@ def make_dataloader(args, config, rank, world_size):
                                config.getstruct("rgb_mean"),
                                config.getstruct("rgb_std"))
     test_db = ISSTestDataset(args.data, test_tf)
-    print(test_db)
     test_sampler = DistributedARBatchSampler(test_db, config.getint("val_batch_size"), world_size, rank, False)
     test_dl = data.DataLoader(test_db,
                               batch_sampler=test_sampler,
@@ -193,7 +190,7 @@ def test(model, dataloader, **varargs):
     save_function = varargs["save_function"]
 
     data_time = time.time()
-    for it, batch in tqdm(enumerate(dataloader)):
+    for it, batch in enumerate(dataloader):
         with torch.no_grad():
             # Extract data
             img = batch["img"].cuda(device=varargs["device"], non_blocking=True)
@@ -246,13 +243,7 @@ def ensure_dir(dir_path):
 
 
 def save_prediction_image(_, panoptic_pred, img_info, out_dir, colors, num_stuff):
-
-    vistas_pallete = np.array(colors).flatten().tolist()[:]
-    # print("vistas_pallete: ", vistas_pallete.shape, vistas_pallete)
-    # print("colors: ", colors.shape, colors)
-
     msk, cat, obj, iscrowd = panoptic_pred
-
 
     img = Image.open(img_info["abs_path"])
 
@@ -267,32 +258,9 @@ def save_prediction_image(_, panoptic_pred, img_info, out_dir, colors, num_stuff
     sem = cat[msk].numpy()
     crowd = iscrowd[msk].numpy()
     sem[crowd == 1] = 255
-    # huan
-    out_path_png = out_path.replace(".jpg", ".png")
-    print("\n", out_path_png)
-    # print("sem:", sem.shape, sem)
-
-    sem_img = Image.fromarray((sem + 0).astype('uint8'))
-    # print(sem_img.shape)
-    sem_img = sem_img.resize(img_info["original_size"][::-1])
-    sem_img.putpalette(vistas_pallete)
-    sem_img.save(out_path_png.replace(".png", "_no_contour.png"))
-
-    print("sem_img.shape: ", sem_img.size)
-
 
     sem_img = Image.fromarray(colors[sem])
-
-    print("after colors, sem_img.shape: ", sem_img.size)
-
-    # print("colors[sem]:", colors[sem].shape, colors[sem])
     sem_img = sem_img.resize(img_info["original_size"][::-1])
-    # sem_img_cate =
-
-    print("after resize, sem_img.shape: ", sem_img.size)
-
-    sem_img.save(out_path_png)
-
 
     # Render contours
     is_background = (sem < num_stuff) | (sem == 255)
@@ -306,17 +274,10 @@ def save_prediction_image(_, panoptic_pred, img_info, out_dir, colors, num_stuff
     contours_img = Image.fromarray(contours, mode="RGBA")
     contours_img = contours_img.resize(img_info["original_size"][::-1])
 
-    # contours_img.save(out_path_png)
-
     # Compose final image and save
     out = Image.blend(img, sem_img, 0.5).convert(mode="RGBA")
-    # out_no_image = Image.blend(img, sem_img, 0.5).convert(mode="RGBA")
-    # out = Image.blend(img, sem_img, 0.5).convert(mode="RGBA")
-
     out = Image.alpha_composite(out, contours_img)
     out.convert(mode="RGB").save(out_path)
-
-#
 
 
 def save_prediction_raw(raw_pred, _, img_info, out_dir):
@@ -378,7 +339,6 @@ def main(args):
                 palette.append(meta["palette"][i])
             else:
                 palette.append((0, 0, 0))
-            print(palette[i])
         palette = np.array(palette, dtype=np.uint8)
 
         save_function = partial(
