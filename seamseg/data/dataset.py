@@ -177,9 +177,12 @@ class ISSTestDataset(data.Dataset):
         self.transform = transform
 
         # Find all images
+        start = 0
+        end = 100
+        print("start, end image: ", start, end)
         self._images = []
         for img_path in chain(
-                *(glob.iglob(path.join(self.in_dir, '**', ext), recursive=True) for ext in ISSTestDataset._EXTENSIONS)):
+                *(glob.iglob(path.join(self.in_dir, '**', ext), recursive=True) for ext in ISSTestDataset._EXTENSIONS))[start:end]:
             try:
                 _, name_with_ext = path.split(img_path)
                 idx, _ = path.splitext(name_with_ext)
@@ -213,8 +216,16 @@ class ISSTestDataset(data.Dataset):
         # Load image
         print(r"self._images[item][path]:", self._images[item]["path"])
         with Image.open(self._images[item]["path"]) as img_raw:
-            size = (img_raw.size[1], img_raw.size[0])
+             # clip image. Huan
+            w, h = img_raw.size
+            top = int(w / 2)
+            bottom = h
+            left = 0
+            right = w
+            img_raw = img_raw.crop((left, top, right, bottom))
+            size = (img_raw.size[1], img_raw.size[0] / 2)
             img = self.transform(img_raw.convert(mode="RGB"))
+
 
         return {
             "img": img,

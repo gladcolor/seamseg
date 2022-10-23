@@ -300,6 +300,7 @@ def save_prediction_raw(raw_pred, _, img_info, out_dir):
 
 def main(args):
     # Initialize multi-processing
+    print("starting...")
     distributed.init_process_group(backend='nccl', init_method='env://')
     device_id, device = args.local_rank, torch.device(args.local_rank)
     rank, world_size = distributed.get_rank(), distributed.get_world_size()
@@ -317,6 +318,7 @@ def main(args):
     meta = load_meta(args.meta)
 
     # Create model
+    print("model 0 :\n\n\n\n\n\n\n\n")
     model = make_model(config, meta["num_thing"], meta["num_stuff"])
 
     # Load snapshot
@@ -326,6 +328,7 @@ def main(args):
     # Init GPU stuff
     torch.backends.cudnn.benchmark = config["general"].getboolean("cudnn_benchmark")
     model = DistributedDataParallel(model.cuda(device), device_ids=[device_id], output_device=device_id)
+    print("model:\n", model)
 
     # Panoptic processing parameters
     panoptic_preprocessing = PanopticPreprocessing(args.score_threshold, args.iou_threshold, args.min_area)

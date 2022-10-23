@@ -313,8 +313,9 @@ def save_prediction_image(_, panoptic_pred, img_info, out_dir, colors, num_stuff
     # out_no_image = Image.blend(img, sem_img, 0.5).convert(mode="RGBA")
     # out = Image.blend(img, sem_img, 0.5).convert(mode="RGBA")
 
-    out = Image.alpha_composite(out, contours_img)
-    out.convert(mode="RGB").save(out_path)
+    # Huan, close output temporarily
+    # out = Image.alpha_composite(out, contours_img)
+    # out.convert(mode="RGB").save(out_path)
 
 #
 
