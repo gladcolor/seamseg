@@ -269,14 +269,14 @@ def save_prediction_image(_, panoptic_pred, img_info, out_dir, colors, num_stuff
     sem[crowd == 1] = 255
     # huan
     out_path_png = out_path.replace(".jpg", ".png")
-    print("\n", out_path_png)
-    print("sem:", type(sem), sem.shape)
+    # print("\n", out_path_png)
+    # print("sem:", type(sem), sem.shape)
 
     sem_img = Image.fromarray((sem + 0).astype('uint8'))  # In PyTorch, images are represented as [channels, height, width]
     # scipy.ndimage.imread('img.jpg', mode='RGB'), the resulting array will always have this order: (H, W, D) i.e. (height, width, depth) because of the terminology that numpy uses for ndarrays (axis=0, axis=1, axis=2) or analogously (Y, X, Z) if one would like to visualize in 3 dimensions.
 
 
-    save_no_contour = True
+    save_no_contour = False
 
     # save image
     if save_no_contour:
@@ -285,18 +285,18 @@ def save_prediction_image(_, panoptic_pred, img_info, out_dir, colors, num_stuff
         sem_img.putpalette(vistas_pallete)
         sem_img.save(out_path_png.replace(".png", "_no_contour.png"))
 
-    print("sem_img.size: ", sem_img.size)
+    # print("sem_img.size: ", sem_img.size)
 
 
     # save color image.
     sem_img = Image.fromarray(colors[sem])
 
-    print("after colors, sem_img.shape: ", sem_img.size)
+    # print("after colors, sem_img.shape: ", sem_img.size)
     # print("colors[sem]:", colors[sem].shape, colors[sem])
     sem_img = sem_img.resize(img_info["original_size"][::1], Image.NEAREST)
     # sem_img_cate =
 
-    print("after resize, sem_img.shape: ", sem_img.size)
+    # print("after resize, sem_img.shape: ", sem_img.size)
 
     sem_img.save(out_path_png)
 

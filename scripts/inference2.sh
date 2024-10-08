@@ -1,1 +1,8 @@
-python  -m torch.distributed.launch --nproc_per_node=1    test_panoptic.py --meta /media/huan/HD8T/Research/seamseg/scripts/seamseg_r50_vistas/metadata.bin --log_dir ./LOG /media/huan/HD8T/Research/seamseg/scripts/seamseg_r50_vistas/config.ini /media/huan/HD8T/Research/seamseg/scripts/seamseg_r50_vistas/seamseg_r50_vistas.tar /media/huan/HD8T/DC_panoramas1 /media/huan/HD16T/Research/seamseg/seamseg/scripts/OUTPUT_DIR
+python  -m torch.distributed.launch --nproc_per_node=1    test_panoptic.py --meta /media/huan/HD8T/Research/seamseg/scripts/seamseg_r50_vistas/metadata.bin --log_dir ./LOG /media/huan/HD8T/Research/seamseg/scripts/seamseg_r50_vistas/config.ini /media/huan/HD8T/Research/seamseg/scripts/seamseg_r50_vistas/seamseg_r50_vistas.tar /media/huan/HD16T/Research/street_image_mapping/State_college/Thumbnails_fov90_2 /media/huan/HD16T/Research/street_image_mapping/State_college/Thumbnails_fov90_2_segmented
+
+# test
+python  -m torch.distributed.launch --nproc_per_node=1    test_panoptic.py --meta /media/huan/HD8T/Research/seamseg/scripts/seamseg_r50_vistas/metadata.bin --log_dir ./LOG /media/huan/HD8T/Research/seamseg/scripts/seamseg_r50_vistas/config.ini /media/huan/HD8T/Research/seamseg/scripts/seamseg_r50_vistas/seamseg_r50_vistas.tar /media/huan/HD16T/Research/street_image_mapping/State_college/test_img/raw_image /media/huan/HD16T/Research/street_image_mapping/State_college/test_img/seg1600_2
+
+cd /media/huan/HD8T/Research/seamseg/scripts/
+conda activate seamseg
+python  -m torch.distributed.launch --nproc_per_node=1    test_panoptic.py --meta /media/huan/HD8T/Research/seamseg/scripts/seamseg_r50_vistas/metadata.bin --log_dir ./LOG /media/huan/HD8T/Research/seamseg/scripts/seamseg_r50_vistas/config.ini /media/huan/HD8T/Research/seamseg/scripts/seamseg_r50_vistas/seamseg_r50_vistas.tar /media/huan/3C2876142875CE00/Richland_jsons_clipped /media/huan/3C2876142875CE00/Richland_jsons_clipped_segmented
