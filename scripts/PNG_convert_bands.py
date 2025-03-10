@@ -6,8 +6,11 @@ import numpy as np
 import multiprocessing
 
 # Paths
-input_folder = 'H:\\Richland_jsons_clipped_segmented'
-output_folder = 'H:\\Richland_jsons_clipped_segmented_one_band'
+# input_folder = 'H:\\Richland_jsons_clipped_segmented'
+# output_folder = 'H:\\Richland_jsons_clipped_segmented_one_band'
+input_folder  =  '/bigdata/s0/hmn5304/Richland_DOMs_2/Richland_jsons_DOMs'
+output_folder = r'/bigdata/s0/hmn5304/Richland_land_cover'
+
 csv_file = r'mapillary_class_index.csv'  # Ensure this CSV file exists
 
 # Read the CSV file and build mappings
